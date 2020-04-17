@@ -1,0 +1,5 @@
+2020-04-17 11:20:02.239  INFO 14892 --- [restartedMain] com.donald.BlogApplication               : Starting BlogApplication on DESKTOP-MF39GHC with PID 14892 (G:\ws\prj\blog-backend\target\classes started by Zhongxu Huang in G:\ws\prj\blog-backend)
+2020-04-17 11:20:02.241  INFO 14892 --- [restartedMain] com.donald.BlogApplication               : The following profiles are active: pro
+2020-04-17 11:20:04.477  WARN 14892 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-04-17 11:20:04.670  WARN 14892 --- [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates or check your Thymeleaf configuration)
+2020-04-17 11:20:04.785  INFO 14892 --- [restartedMain] com.donald.BlogApplication               : Started BlogApplication in 2.869 seconds (JVM running for 3.55)
