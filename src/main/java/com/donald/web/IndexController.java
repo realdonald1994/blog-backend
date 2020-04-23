@@ -22,4 +22,10 @@ public class IndexController {
 //        System.out.println(id+":"+name);
         return "index";
     }
+
+    @GetMapping("/blog")
+    public String blog(){
+
+        return "blog";
+    }
 }
