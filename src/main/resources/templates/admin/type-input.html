@@ -3,16 +3,17 @@
 <head th:replace="admin/_fragments :: head(~{::title})">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog Management</title>
+  <title>Category Add</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+  <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css">
   <link rel="stylesheet" href="../../static/css/me.css">
 </head>
 <body>
   <!--导航-->
-  <nav th:replace="admin/_fragments :: menu(1)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
+  <nav th:replace="admin/_fragments :: menu(2)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
   <div class="ui container">
     <div class="ui inverted secondary stackable menu">
-      <h2 class="ui teal header item">Blog Management</h2>
+      <h2 class="ui teal header item">Category Add</h2>
       <a href="#" class="m-item item m-mobile-hide"><i class="home icon"></i>Blog</a>
       <a href="#" class="m-item item m-mobile-hide"><i class="idea icon"></i>Category</a>
       <a href="#" class="m-item item m-mobile-hide"><i class="tags icon"></i>Tags</a>
@@ -39,89 +40,62 @@
   <div class="ui attached pointing menu">
     <div class="ui container">
       <div class="right menu">
-        <a href="#" class="active teal item">List</a>
-        <a href="#" class="item">Post</a>
+        <a href="#" th:href="@{/admin/types}" class="item">List</a>
+        <a href="#" th:href="@{/admin/types/input}" class="active teal item">Add</a>
       </div>
     </div>
   </div>
-  <!--  中间内容  -->
-  <div class="m-container-small m-padded-tb-big">
-    <div class="ui container">
-      <form action="#" method="post" class="ui segment form">
-        <div class="inline fields">
-          <div class="field">
-            <input type="text" name="title" placeholder="title">
-          </div>
-          <div class="field">
-            <div class="ui selection dropdown">
-              <input type="hidden" name="type">
-              <i class="dropdown icon"></i>
-              <div class="default text">Classifier</div>
-              <div class="menu">
-                <div class="item" data-value="1">Error Log</div>
-                <div class="item" data-value="1">Developer manual</div>
-              </div>
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui checkbox">
-              <input type="checkbox" id="recommend" name="recommend">
-              <label for="recommend">Recommend</label>
-            </div>
-          </div>
-          <div class="field">
-            <button class="ui mini teal basic button"><i class="search icon"></i>Search</button>
-          </div>
-        </div>
-      </form>
-      <table class="ui celled table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Title</th>
-            <th>Type</th>
-            <th>recommend</th>
-            <th>Update Time</th>
-            <th>Operation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Deliberate practice list</td>
-            <td>Cognitive upgrading</td>
-            <td>Yes</td>
-            <td>2019-10-02 09:45</td>
-            <td>
-              <a href="#" class="ui mini teal basic button">Edit</a>
-              <a href="#" class="ui mini red basic button">Delete</a>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th colspan="6">
-              <div class="ui mini pagination menu">
-                <a class="item">Previous</a>
-                <a class="item">Next</a>
-              </div>
-              <a href="#" class="ui mini right floated teal basic button">Add</a>
-            </th>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
   <br>
   <br>
   <br>
   <br>
   <br>
 
+  <!--  中间内容  -->
+  <div class="m-container-small m-padded-tb-big">
+    <div class="ui container">
+      <form action="#" method="post" th:object="${type}" th:action="*{id}==null ? @{/admin/types} : @{/admin/types/{id}(id=*{id})}" class="ui form">
+        <input type="hidden" name="id" th:value="*{id}">
+        <div class="required field">
+          <div class="ui left labeled input">
+            <label class="ui teal basic label">Name</label>
+            <input type="text" name="name" placeholder="Category Name" th:value="*{name}">
+          </div>
+
+        </div>
+
+
+        <div class="ui error message"></div>
+        <!--/*/
+        <div class="ui negative message" th:if="${#fields.hasErrors('name')}">
+          <i class="close icon"></i>
+          <div class="header">Validation Failed</div>
+          <p th:errors="*{name}">Submitted information does not comply with the rules</p>
+        </div>
+        /*/-->
+        <div class="ui right aligned container">
+          <button type="button" class="ui button" onclick="window.history.go(-1)">Back</button>
+          <button class="ui teal submit button">Submit</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
   <br>
   <br>
   <br>
   <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
   <!--  底部footer  -->
   <footer th:replace="admin/_fragments :: footer" class="ui inverted vertical segment m-padded-tb-massive">
     <div class="ui  center aligned container">
@@ -162,11 +136,27 @@
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
   <!--/*/</th:block>/*/-->
   <script>
+
+
+
+
       $('.menu.toggle').click(function () {
           $('.m-item').toggleClass('m-mobile-hide');
       });
       $('.ui.dropdown').dropdown({
           on:'hover'
+      });
+
+      $('.ui.form').form({
+          fields: {
+              title: {
+                  identifier: 'name',
+                  rules: [{
+                      type: 'empty',
+                      prompt: 'please input type name'
+                  }]
+              }
+          }
       });
   </script>
 </body>
