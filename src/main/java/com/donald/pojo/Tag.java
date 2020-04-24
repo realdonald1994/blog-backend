@@ -1,6 +1,7 @@
 package com.donald.pojo;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "tag name cannot be null")
     private String name;
-
     @ManyToMany(mappedBy = "tags")
     private List<Blog> blogs = new ArrayList<>();
     public Long getId() {

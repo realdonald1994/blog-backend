@@ -4,6 +4,8 @@ import com.donald.pojo.Type;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * @author Donald
  * @data 23/04/2020 11:02
@@ -21,4 +23,6 @@ public interface TypeService {
     void deleteType(Long id);
 
     Type getTypeByName(String name);
+
+    List<Type> listType();
 }
