@@ -33,3 +33,4 @@ public class BlogQuery {
         this.recommend = recommend;
     }
 }
+

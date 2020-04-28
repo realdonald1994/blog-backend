@@ -3,6 +3,7 @@
 <head th:replace="admin/_fragments :: head(~{::title})">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Refresh" content="1" />
   <title>Blog Management</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
   <link rel="stylesheet" href="../../static/css/me.css">
@@ -39,8 +40,8 @@
   <div class="ui attached pointing menu">
     <div class="ui container">
       <div class="right menu">
-        <a href="#"  class="active teal item">List</a>
-        <a href="#"  class="item">Post</a>
+        <a href="#"  th:href="@{/admin/blogs}" class="active teal item">List</a>
+        <a href="#"  th:href="@{/admin/blogs/input}" class="item">Post</a>
       </div>
     </div>
   </div>
@@ -54,17 +55,21 @@
             <input type="text" name="title" placeholder="title">
           </div>
           <div class="field">
-            <div class="ui selection dropdown">
-              <input type="hidden" name="typeId">
-              <i class="dropdown icon"></i>
-              <div class="default text">Classifier</div>
-              <div class="menu">
-                <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">Error Log</div>
-                <!--/*-->
-                <div class="item" data-value="1">Developer manual</div>
-                <!--*/-->
+            <div class="ui labeled action input">
+              <div class="ui type selection dropdown">
+                <input type="hidden" name="typeId">
+                <i class="dropdown icon"></i>
+                <div class="default text">Classifier</div>
+                <div class="menu">
+                  <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">Error Log</div>
+                  <!--/*-->
+                  <div class="item" data-value="2">Developer manual</div>
+                  <!--*/-->
+                </div>
               </div>
+              <button id="clear-btn" class="ui compact button">clear</button>
             </div>
+
           </div>
           <div class="field">
             <div class="ui checkbox">
@@ -85,6 +90,7 @@
             <th>Title</th>
             <th>Type</th>
             <th>recommend</th>
+            <th>published</th>
             <th>Update Time</th>
             <th>Operation</th>
           </tr>
@@ -95,6 +101,7 @@
             <td th:text="${blog.title}">Deliberate practice list</td>
             <td th:text="${blog.type.name}">Cognitive upgrading</td>
             <td th:text="${blog.recommend} ? 'Yes' : 'No'">Yes</td>
+            <td th:text="${blog.published} ? 'Yes' : 'No'">Yes</td>
             <td th:text="${blog.updateTime}">2019-10-02 09:45</td>
             <td>
               <a href="#" th:href="@{/admin/blogs/{id}/input(id=${blog.id})}" class="ui mini teal basic button">Edit</a>
@@ -104,16 +111,23 @@
           </tbody>
           <tfoot>
           <tr>
-            <th colspan="6">
+            <th colspan="7">
               <div class="ui mini pagination menu" th:if="${page.totalPages}>1">
                 <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">Previous</a>
-                <a onclick="page(this)" th:attr="data-page=${page.number}+1" class="item" th:unless="${page.last}">Next</a>
+                <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">Next</a>
               </div>
-              <a href="#" class="ui mini right floated teal basic button">Add</a>
+              <a href="#" th:href="@{/admin/blogs/input}" class="ui mini right floated teal basic button">Add</a>
             </th>
           </tr>
           </tfoot>
         </table>
+
+        <div class="ui success message" th:unless="${#strings.isEmpty(message)}">
+          <i class="close icon"></i>
+          <div class="header">Tips: </div>
+          <p th:text="${message}">operating successfully !</p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -173,21 +187,32 @@
       $('.ui.dropdown').dropdown({
           on:'hover'
       });
-      
+
+      $('.message .close').click(function () {
+        $(this).closest('.message').transition('fade');
+      });
+
+      $('#clear-btn')
+        .on('click', function() {
+          $('.ui.type.dropdown').dropdown('clear');
+        })
+      ;
+
       function page(obj) {
         $("[name='page']").val($(obj).data("page"));
         loaddata();
       }
 
       $("#search-btn").click(function () {
+        $("[name='page']").val(0);
         loaddata();
       });
       function loaddata() {
         $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search",{
-          title: $("[name='title']").val(),
-          typeId: $("[name='typeId']").val(),
-          recommend: $("[name='recommend']").prop('checked'),
-          page: $("[name='name']").val()
+          title : $("[name='title']").val(),
+          typeId : $("[name='typeId']").val(),
+          recommend : $("[name='recommend']").prop('checked'),
+          page : $("[name='page']").val()
         });
       }
       

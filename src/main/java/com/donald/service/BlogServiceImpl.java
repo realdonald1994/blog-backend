@@ -4,6 +4,7 @@ import com.donald.NotFoundException;
 import com.donald.dao.BlogDao;
 import com.donald.pojo.Blog;
 import com.donald.pojo.Type;
+import com.donald.util.MyBeanUtil;
 import com.donald.vo.BlogQuery;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -19,6 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +52,7 @@ public class BlogServiceImpl implements BlogService {
                 if(blog.getTypeId() !=null){
                     predicates.add(cb.equal(root.<Type>get("type").get("id"),blog.getTypeId()));
                 }
-                if(blog.isRecommend() == true){
+                if(blog.isRecommend()){
                     predicates.add(cb.equal(root.<Boolean>get("recommend"),blog.isRecommend()));
                 }
                 query.where(predicates.toArray(new Predicate[predicates.size()]));
@@ -62,6 +64,15 @@ public class BlogServiceImpl implements BlogService {
     @Transactional
     @Override
     public Blog saveBlog(Blog blog) {
+        if(blog.getId()==null){
+            blog.setCreateTime(new Date());
+            blog.setUpdateTime(blog.getCreateTime());
+            blog.setViews(0);
+            blog.setFlag("origin");
+        }else{
+            blog.setUpdateTime(new Date());
+        }
+
         return blogDao.save(blog);
     }
 
@@ -73,7 +84,8 @@ public class BlogServiceImpl implements BlogService {
             throw new NotFoundException("blog is not exist");
         }
         Blog b = optional.get();
-        BeanUtils.copyProperties(blog,b);
+        BeanUtils.copyProperties(blog,b, MyBeanUtil.getNullPropertyNames(blog));
+        b.setUpdateTime(new Date());
         return blogDao.save(b);
     }
 

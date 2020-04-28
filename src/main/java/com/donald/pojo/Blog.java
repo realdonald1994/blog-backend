@@ -1,5 +1,7 @@
 package com.donald.pojo;
 
+import org.springframework.util.CollectionUtils;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,15 +14,18 @@ public class Blog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
     private String content;
     private String firstPicture;
     private String flag;
-    private String views;
-    private Boolean appreciation;
-    private Boolean shareStatement;
-    private Boolean commentabled;
-    private Boolean published;
-    private Boolean recommend;
+    private Integer views;
+    private boolean appreciation;
+    private boolean shareStatement;
+    private boolean commentabled;
+    private boolean published;
+    private boolean recommend;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createTime;
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,7 +43,11 @@ public class Blog {
     @OneToMany(mappedBy = "blog")
     private List<Comment> comments = new ArrayList<>();
 
+    @Transient
+    private String tagIds;
 
+
+    private String description;
     public List<Comment> getComments() {
         return comments;
     }
@@ -103,51 +112,51 @@ public class Blog {
         this.flag = flag;
     }
 
-    public String getViews() {
+    public Integer getViews() {
         return views;
     }
 
-    public void setViews(String views) {
+    public void setViews(Integer views) {
         this.views = views;
     }
 
-    public Boolean getAppreciation() {
+    public boolean isAppreciation() {
         return appreciation;
     }
 
-    public void setAppreciation(Boolean appreciation) {
+    public void setAppreciation(boolean appreciation) {
         this.appreciation = appreciation;
     }
 
-    public Boolean getShareStatement() {
+    public boolean isShareStatement() {
         return shareStatement;
     }
 
-    public void setShareStatement(Boolean shareStatement) {
+    public void setShareStatement(boolean shareStatement) {
         this.shareStatement = shareStatement;
     }
 
-    public Boolean getCommentabled() {
+    public boolean isCommentabled() {
         return commentabled;
     }
 
-    public void setCommentabled(Boolean commentabled) {
+    public void setCommentabled(boolean commentabled) {
         this.commentabled = commentabled;
     }
 
-    public Boolean getPublished() {
+    public boolean isPublished() {
         return published;
     }
 
-    public void setPublished(Boolean published) {
+    public void setPublished(boolean published) {
         this.published = published;
     }
 
-    public Boolean getRecommend() {
+    public boolean isRecommend() {
         return recommend;
     }
 
-    public void setRecommend(Boolean recommend) {
+    public void setRecommend(boolean recommend) {
         this.recommend = recommend;
     }
 
@@ -175,6 +184,44 @@ public class Blog {
         this.tags = tags;
     }
 
+    public String getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(String tagIds) {
+        this.tagIds = tagIds;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void init(){
+        this.tagIds = tagsToIds(this.getTags());
+    }
+
+    private String tagsToIds(List<Tag> tags){
+        if(!CollectionUtils.isEmpty(tags)){
+            StringBuffer ids = new StringBuffer();
+            boolean flag = false;
+            for(Tag tag:tags){
+                if(flag){
+                    ids.append(",");
+                }else {
+                    flag =true;
+                }
+                ids.append(tag.getId());
+            }
+            return ids.toString();
+        }else {
+            return tagIds;
+        }
+    }
+
     @Override
     public String toString() {
         return "Blog{" +
@@ -183,7 +230,7 @@ public class Blog {
                 ", content='" + content + '\'' +
                 ", firstPicture='" + firstPicture + '\'' +
                 ", flag='" + flag + '\'' +
-                ", views='" + views + '\'' +
+                ", views=" + views +
                 ", appreciation=" + appreciation +
                 ", shareStatement=" + shareStatement +
                 ", commentabled=" + commentabled +
@@ -191,6 +238,12 @@ public class Blog {
                 ", recommend=" + recommend +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
+                ", type=" + type +
+                ", tags=" + tags +
+                ", user=" + user +
+                ", comments=" + comments +
+                ", tagIds='" + tagIds + '\'' +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

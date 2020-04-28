@@ -57,7 +57,7 @@
         <div class="header">Tips: </div>
         <p th:text="${message}">operating successfully !</p>
       </div>
-      <table class="ui celled table">
+      <table class="ui compact teal table">
         <thead>
           <tr>
             <th></th>
@@ -149,7 +149,7 @@
 
       $('.message .close').click(function () {
         $(this).closest('.message').transition('fade');
-      })
+      });
   </script>
 </body>
 </html>
