@@ -4,6 +4,7 @@ import com.donald.NotFoundException;
 import com.donald.dao.BlogDao;
 import com.donald.pojo.Blog;
 import com.donald.pojo.Type;
+import com.donald.util.MarkdownUtil;
 import com.donald.util.MyBeanUtil;
 import com.donald.vo.BlogQuery;
 import org.apache.commons.lang.StringUtils;
@@ -112,5 +113,19 @@ public class BlogServiceImpl implements BlogService {
     public Page<Blog> listBlog(String query, Pageable pageable) {
 
         return blogDao.findByQuery(query,pageable);
+    }
+
+    @Override
+    public Blog getAndConvert(Long id) {
+        Optional<Blog> optional = blogDao.findById(id);
+        if(!optional.isPresent()){
+            throw new NotFoundException("blog is not exist");
+        }
+        Blog blog = optional.get();
+        Blog b = new Blog();
+        BeanUtils.copyProperties(blog,b);
+        String content = b.getContent();
+        b.setContent(MarkdownUtil.markdownToHtmlExtensions(content));
+        return b;
     }
 }
