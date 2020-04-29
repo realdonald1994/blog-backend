@@ -115,6 +115,7 @@ public class BlogServiceImpl implements BlogService {
         return blogDao.findByQuery(query,pageable);
     }
 
+    @Transactional
     @Override
     public Blog getAndConvert(Long id) {
         Optional<Blog> optional = blogDao.findById(id);
@@ -126,6 +127,8 @@ public class BlogServiceImpl implements BlogService {
         BeanUtils.copyProperties(blog,b);
         String content = b.getContent();
         b.setContent(MarkdownUtil.markdownToHtmlExtensions(content));
+
+        blogDao.updateViews(id);
         return b;
     }
 }

@@ -3,3 +3,8 @@ spring:
     mode: HTML
   profiles:
     active: dev
+
+
+
+
+comment.avatar: /images/avatar6.jpg

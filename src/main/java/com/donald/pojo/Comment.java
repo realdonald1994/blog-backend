@@ -32,6 +32,8 @@ public class Comment {
     private Comment parentComment;
 
 
+    private Boolean adminComment;
+
     public List<Comment> getReplyComments() {
         return replyComments;
     }
@@ -104,6 +106,15 @@ public class Comment {
         this.createTime = createTime;
     }
 
+
+    public Boolean getAdminComment() {
+        return adminComment;
+    }
+
+    public void setAdminComment(Boolean adminComment) {
+        this.adminComment = adminComment;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
@@ -113,6 +124,10 @@ public class Comment {
                 ", content='" + content + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", createTime=" + createTime +
+                ", blog=" + blog +
+                ", replyComments=" + replyComments +
+                ", parentComment=" + parentComment +
+                ", adminComment=" + adminComment +
                 '}';
     }
 }
