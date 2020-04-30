@@ -30,4 +30,6 @@ public interface BlogService {
 
 
     Blog getAndConvert(Long id);
+
+    Page<Blog> listBlog(Long tagId,Pageable pageable);
 }
