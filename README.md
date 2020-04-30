@@ -29,3 +29,8 @@
 * service src/main/java/com/donald/blog/service
 
 * static resources -- src/main/resources/templates
+
+
+```
+ The database table creation statement is not provided. After starting, it will automatically generate database tables in the connected database
+```
