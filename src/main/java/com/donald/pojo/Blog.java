@@ -34,7 +34,7 @@ public class Blog {
     @ManyToOne
     private Type type;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Tag> tags = new ArrayList<>();
 
     @ManyToOne
