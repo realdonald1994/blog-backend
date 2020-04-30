@@ -3,13 +3,13 @@
 ## springboot + mysql + thymeleaf + spring data jpa + jquery
 
 
-### Front-End Display Page
+### Front-End Display Page:
 ![](https://github.com/realdonald1994/blog-backend/blob/master/Sketch.png)
 
-### About Me Display Page
+### About Me Display Page:
 ![](https://github.com/realdonald1994/blog-backend/blob/master/Sketch1.png)
 
-### Front-End Display Page
+### Back-End Display Page:
 ![](https://github.com/realdonald1994/blog-backend/blob/master/Sketch3.png)
 
 - Database: MySQL + JPA
