@@ -49,6 +49,7 @@ public class CommentController {
             comment.setNickname(user.getNickname());
         }
         else{
+            comment.setAdminComment(false);
             comment.setAvatar(avatar);
         }
         commentService.saveComment(comment);

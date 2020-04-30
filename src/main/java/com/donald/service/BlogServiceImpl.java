@@ -19,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Donald
@@ -139,5 +136,20 @@ public class BlogServiceImpl implements BlogService {
                 return cb.equal(join.get("id"),tagId);
             }
         }, pageable);
+    }
+
+    @Override
+    public Map<String, List<Blog>> archiveBlog() {
+        List<String> years = blogDao.findGroupYear();
+        Map<String,List<Blog>> map = new LinkedHashMap<>();
+        for (String year : years) {
+            map.put(year,blogDao.findByYear(year));
+        }
+        return map;
+    }
+
+    @Override
+    public Long countBlog() {
+        return blogDao.count();
     }
 }
