@@ -16,8 +16,8 @@
     <nav th:fragment="menu(n)" class="ui inverted attached segment m-padded-tb-mini m-shadow-small">
         <div class="ui container">
             <div class="ui inverted secondary stackable menu">
-                <h2 class="ui teal header item">Blog</h2>
-                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="home icon"></i>Home</a>
+                <h2 class="ui teal header item"><a href="#" class="m-teal" th:href="@{/}">Blog</a></h2>
+                <a href="#" th:href="@{/}" class="m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><i class="home icon"></i><span th:text="#{nav.index}">Home</span></a>
                 <a href="#" th:href="@{/types/-1}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><i class="idea icon"></i>Category</a>
                 <a href="#" th:href="@{/tags/-1}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><i class="tags icon"></i>Tags</a>
                 <a href="#" th:href="@{/archives}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><i class="clone icon"></i>Archive</a>
@@ -51,16 +51,20 @@
                 </div>
                 <div class="three wide column">
                     <h4 class="ui inverted header m-text-spaced m-text-thin">Newest Blog</h4>
-                    <div class="ui inverted link list">
-                        <a href="#" class="item">用户故事 (User Story)</a>
-                        <a href="#" class="item">用户故事 (User Story)</a>
-                        <a href="#" class="item">用户故事 (User Story)</a>
+                    <div id="newblog-container">
+                        <div class="ui inverted link list" th:fragment="newblogList">
+                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item" th:each="blog : ${newblogs}" th:text="${blog.title}">用户故事 (User Story)</a>
+                            <!--/*-->
+                            <a href="#" class="item">用户故事 (User Story)</a>
+                            <a href="#" class="item">用户故事 (User Story)</a>
+                            <!--*/-->
+                        </div>
                     </div>
                 </div>
                 <div class="three wide column">
                     <h4 class="ui inverted header m-text-spaced m-text-thin">Contact me</h4>
                     <div class="ui inverted link list">
-                        <a href="#" class="item">Email: realdonald9@gmail.com</a>
+                        <a href="#" class="item" th:text="|Email: #{index.email}|">Email: realdonald9@gmail.com</a>
                         <a href="#" class="item">Phone: 438-979-8803</a>
                     </div>
                 </div>
@@ -82,6 +86,9 @@
         <script src="../static/lib/tocbot/tocbot.min.js" th:src="@{/lib/tocbot/tocbot.min.js}"></script>
         <script src="../static/lib/qrcode/qrcode.min.js" th:src="@{/lib/qrcode/qrcode.min.js}"></script>
         <script src="../static/lib/waypoints/jquery.waypoints.min.js" th:src="@{/lib/waypoints/jquery.waypoints.min.js}"></script>
+        <script>
+            $('#newblog-container').load(/*[[@{/footer/newblog}]]*/"/footer/newblog");
+        </script>
     </th:block>
 
 </body>

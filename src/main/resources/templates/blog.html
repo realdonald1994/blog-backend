@@ -694,7 +694,7 @@ h5,h6{font-size:1em;}
             position: 'left center'
         });
 
-        let serurl= "http://localhost:8080";
+        let serurl= /*[[#{blog.serurl}]]*/"http://localhost:8080";
         let url = /*[[@{/blog/{id}(id=${blog.id})}]]*/"";
         let qrcode = new QRCode("qrcode", {
             text: serurl+url,
