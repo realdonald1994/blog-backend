@@ -32,5 +32,13 @@
 
 
 ```
- The database table creation statement is not provided. After starting, it will automatically generate database tables in the connected database
+ The database table creation statement is not provided. 
+ After starting, it will automatically generate database tables in the connected database.
+```
+
+
+```
+Visit http://127.0.0.1:8080 to visit the blog page
+Visit http://127.0.0.1:8080/admin to visit blog management page
+ - input username and password to log in
 ```
